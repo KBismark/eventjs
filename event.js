@@ -48,6 +48,9 @@ function EventEmitter(){
             if(0<=index&&count[index]!==0){
                 var i;
                 for(i in eventStore[index]){
+                    if(arg.target){
+                        eventStore[index][i]=eventStore[index][i].bind(arg.target);
+                    }
                     eventStore[index][i](arg);
                 }
                 if(count[index]>0){
@@ -116,10 +119,9 @@ function EventListener(){
                         index = Objects.length-1;
                         
                     }
-                   // func=func.bind(OBJ[i]);
                     EEstore[index].on(eventName,func,funcName);
                     let index1 = eventStore[index].indexOf(eventName);
-                    if(0>index1){//alert(index1)
+                    if(0>index1){
                         eventStore[index].push(eventName);
                         OBJ[i]["on"+eventName]=function(){
                             EEstore[index].emit(eventName,{
