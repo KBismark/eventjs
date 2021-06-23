@@ -49,7 +49,9 @@ function EventEmitter(){
                 var i;
                 for(i in eventStore[index]){
                     if(arg.target){
-                        eventStore[index][i]=eventStore[index][i].bind(arg.target);
+                        eventStore[index][i]=eventStore[index][i].bind(arg.target[0]);
+                        arg = arg.target[1];
+                        arg.each = Each;
                     }
                     eventStore[index][i](arg);
                 }
@@ -59,6 +61,18 @@ function EventEmitter(){
             }
             
         }
+    };
+    function Each(listener){
+        if(typeof (listener)==="function"){
+            var i,list=[];
+            for(i in this){
+                list.push(listener);
+            }
+            for(i in this){
+                list[i] = list[i].bind(this[i]);
+                list[i]();
+            }
+        };
     };
     //Use to remove all event listeners/handlers of the event name specified.
     this.removeAllListeners=function(eventName){
@@ -123,11 +137,12 @@ function EventListener(){
                     let index1 = eventStore[index].indexOf(eventName);
                     if(0>index1){
                         eventStore[index].push(eventName);
+                        let O = {
+                            target: [OBJ[i],OBJ],
+                            name: "on"+eventName
+                        };
                         OBJ[i]["on"+eventName]=function(){
-                            EEstore[index].emit(eventName,{
-                                target: this,
-                                name: "on"+eventName
-                            });
+                            EEstore[index].emit(eventName,O);
                         };
                     }
                     
@@ -216,6 +231,7 @@ function EventListener(){
             return o;
         }
     };
+    this.$=this.targ;
 
 };
 
