@@ -1,5 +1,6 @@
+"use strict"
 
-
+//An event engine
 function EventEmitter(){
     if(!new.target){
         return new EventEmitter();
@@ -42,18 +43,18 @@ function EventEmitter(){
         return o;
     };
     //Use to emit/trigger events
-    this.emit=function(eventName,arg){
+    this.emit=function(eventName,arg,ev){
         if(typeof (eventName)==="string"){
             let index=eNames.indexOf(eventName);
             if(0<=index&&count[index]!==0){
                 var i;
                 for(i in eventStore[index]){
                     if(arg.target){
-                        eventStore[index][i]=eventStore[index][i].bind(arg.target[0]);
+                        eventStore[index][i]=eventStore[index][i].bind(ev.target/*arg.target[0]*/);
                         arg = arg.target[1];
                         arg.each = Each;
                     }
-                    eventStore[index][i](arg);
+                    eventStore[index][i](ev,arg);
                 }
                 if(count[index]>0){
                     count[index]-=1;
@@ -64,11 +65,12 @@ function EventEmitter(){
     };
     function Each(listener){
         if(typeof (listener)==="function"){
-            var i,list=[];
-            for(i in this){
+            var i,list=[],l=0;
+            while(l<this.length){
                 list.push(listener);
+                l++;
             }
-            for(i in this){
+            for(i in list){
                 list[i] = list[i].bind(this[i]);
                 list[i]();
             }
@@ -112,12 +114,24 @@ function EventEmitter(){
 
 };
 
+
+//Front end event listerner
 function EventListener(){
+    
     if(!new.target){
         return new EventListener();
     }
     let Objects=[],eventStore=[],EEstore=[],OBJ=null,curEvent=null;
     function callback(){};
+    function stop(){
+        if(this.preventDefault){
+          this.preventDefault();
+          this.stopPropagation();
+        }else{
+          this.returnValue = false;
+          this.cancelBubble = true;
+        }
+    };
     let o={
         //Use to add event listeners
         on:function(eventName,func,funcName){
@@ -138,11 +152,11 @@ function EventListener(){
                     if(0>index1){
                         eventStore[index].push(eventName);
                         let O = {
-                            target: [OBJ[i],OBJ],
-                            name: "on"+eventName
+                            target: [OBJ[i],OBJ]
                         };
-                        OBJ[i]["on"+eventName]=function(){
-                            EEstore[index].emit(eventName,O);
+                        OBJ[i]["on"+eventName]=function(e){
+                            e.stopDefault = stop;
+                            EEstore[index].emit(eventName,O,e);
                         };
                     }
                     
@@ -214,7 +228,12 @@ function EventListener(){
                 
             };
             return this;
+        },
+        //manual predefined events
+        manualEvent: function(eventName,func,funcName){
+            return this;
         }
+    
     };
     //Use to set the current object(s) for event manipulations. 
     this.targ=function(obj){
@@ -232,15 +251,4 @@ function EventListener(){
         }
     };
     this.$=this.targ;
-
 };
-
-
-
-
-
-
-
-
-
-
