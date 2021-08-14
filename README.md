@@ -12,7 +12,7 @@ Predefined snippets to use in your applications.
 >> 
 >> - Removes the main downside of using the traditional DOM events, i.e you can add as many event listeners as you want just like using the addEventListener method 
 >> 
->> - Event.js has all the features of the addEventListener method.
+>> - Event.js has all the features of the addEventListener method. Note: capture or bubble feature is not present.
 >> 
 >> - Event.js is supported in many browsers (modern browsers + old browsers).
 >> 
