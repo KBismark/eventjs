@@ -1,6 +1,4 @@
 "use strict"
-
-//An event engine
 function EventEmitter(){
     if(!new.target){
         return new EventEmitter();
@@ -44,24 +42,47 @@ function EventEmitter(){
     };
     //Use to emit/trigger events
     this.emit=function(eventName,arg,ev){
-        if(typeof (eventName)==="string"){
             let index=eNames.indexOf(eventName);
             if(0<=index&&count[index]!==0){
                 var i;
-                for(i in eventStore[index]){
-                    if(arg.target){
-                        eventStore[index][i]=eventStore[index][i].bind(ev.target/*arg.target[0]*/);
+                if(typeof (arg)==="undefined"){
+                    for(i in eventStore[index]){
+                        eventStore[index][i]();
+                    }
+                }else if(typeof (arg.target)==="undefined"&&Array.isArray(arg)){
+                    for(i in eventStore[index]){
+                        arg.each = Each;
+                        eventStore[index][i](arg);
+                    }
+                }else{
+                    for(i in eventStore[index]){
+                        eventStore[index][i]=eventStore[index][i].bind(ev.target);
                         arg = arg.target[1];
                         arg.each = Each;
+                        eventStore[index][i](ev,arg);
                     }
-                    eventStore[index][i](ev,arg);
                 }
+                /*for(i in eventStore[index]){
+                    if(typeof (arg)==="undefined"){
+                        eventStore[index][i]();
+                    }else if(typeof (arg.target)==="undefined"&&Array.isArray(arg)){
+                        arg.each = Each;
+                        eventStore[index][i](arg);
+                    }
+                    else{
+                        //if(arg.target){
+                            eventStore[index][i]=eventStore[index][i].bind(ev.target);
+                            arg = arg.target[1];
+                            arg.each = Each;
+                        //}
+                        eventStore[index][i](ev,arg);
+                    }
+                }*/
                 if(count[index]>0){
                     count[index]-=1;
                 }
             }
-            
-        }
+            return this;
     };
     function Each(listener){
         if(typeof (listener)==="function"){
@@ -114,8 +135,6 @@ function EventEmitter(){
 
 };
 
-
-//Front end event listerner
 function EventListener(){
     
     if(!new.target){
@@ -204,7 +223,7 @@ function EventListener(){
             return this;
         },
         //Use to remove all listening events of the object(s) specified.
-        removeTarget: function(obj){
+        removeTargetEvents: function(obj){
             if(typeof (obj)==="undefined"){
                 obj=OBJ;
             }
@@ -228,11 +247,8 @@ function EventListener(){
                 
             };
             return this;
-        },
-        //manual predefined events
-        manualEvent: function(eventName,func,funcName){
-            return this;
         }
+        
     
     };
     //Use to set the current object(s) for event manipulations. 
