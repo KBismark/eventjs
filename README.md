@@ -73,7 +73,7 @@
 >>                                                  // Listeners are executed when a targeted element is hovered for the first time 
 >>                                                  // and do not get executed afterwards when hovered again.
 >> 
-> - #### `removeListener` .removeListener(eventName,the-optional-identifier-the-listener || A reference to the listerner)
+> - #### `removeListener` .removeListener(eventName,the-optional-identifier-for-the-listener || A reference to the listerner)
 > Use to remove an event listener/handler of the specified event name.
 >> ```js
 >>  var button = document.getElementById("button");
