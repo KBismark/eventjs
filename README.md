@@ -22,6 +22,10 @@
 >> var divs = document.getElementsByTagName("div");
 >> var events = new EventListener();// Returns EventListenerObject.
 >> 
+>> events.targ(divs) 
+>> //or do this 
+>> events.$(divs)
+>> 
 > - #### `on` .on(eventName,handler,optional-identifier)
 > Use to add event listeners.
 >> ```js
