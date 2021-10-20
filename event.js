@@ -62,22 +62,6 @@ function EventEmitter(){
                         eventStore[index][i](ev,arg);
                     }
                 }
-                /*for(i in eventStore[index]){
-                    if(typeof (arg)==="undefined"){
-                        eventStore[index][i]();
-                    }else if(typeof (arg.target)==="undefined"&&Array.isArray(arg)){
-                        arg.each = Each;
-                        eventStore[index][i](arg);
-                    }
-                    else{
-                        //if(arg.target){
-                            eventStore[index][i]=eventStore[index][i].bind(ev.target);
-                            arg = arg.target[1];
-                            arg.each = Each;
-                        //}
-                        eventStore[index][i](ev,arg);
-                    }
-                }*/
                 if(count[index]>0){
                     count[index]-=1;
                 }
