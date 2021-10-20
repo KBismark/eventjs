@@ -88,6 +88,16 @@
 >>  },"buttonClickedListener2").removeListener("click","buttonClickedListener1");
 >>  // If the button is clicked, only the second listener gets executed.
 >>  
+>>  // Removing listener by reference
+>>  function buttonIsClicked(eventObject,targetElements){
+>>      //do stuff..
+>>  };
+>>  
+>>  events.targ(button).on("click",buttonIsClicked).on("click",function(e,ech){
+>>      //...
+>>  },"buttonClickedListener2").removeListener("click",buttonIsClicked);
+>>  // If the button is clicked, the buttonIsClicked listner does not get executed.
+>>  
 > - #### `removeTargetEvents` .removeTargetEvents(targetElements | undefined)
 > Use to remove all listening events of the object(s) specified.
 >> ```js
