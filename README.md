@@ -31,7 +31,7 @@
 >> ```js
 >>  events.targ(divs).on("mouseover",function(eventObject,targetElements){
 >> 
->>    // "this" refers to the element among the targeted elements that is focused.
+>>    // "this" refers to the element among the targeted elements that is focused or hovered.
 >>    this.style.color="red";
 >>    console.log(this===eventObject.target);// true
 >>    
