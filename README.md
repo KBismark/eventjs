@@ -26,7 +26,7 @@
 >> //or do this 
 >> events.$(divs)
 >> 
-> - #### `on` .on(eventName,handler,optional-identifier)
+> - #### `on` .on(eventName, handler, optional-identifier)
 > Use to add event listeners.
 >> ```js
 >>  events.targ(divs).on("mouseover",function(eventObject,targetElements){
@@ -44,20 +44,20 @@
 >>    
 >> },"my optional identifier for the anonymous function")/* chainable */
 >> 
->> .on("mouseout",function(eventObject,targetElements){
+>> .on("mouseout",function(eventObject, targetElements){
 >> 
 >>    // "this" refers to the element among the targeted elements that is blured.
 >>    this.style.color="blue";
 >>    console.log(this===eventObject.target);// true
 >> })
 >> /* Add another mouseover listener */
->>  .on("mouseover",function(eventObject,targetElements){
+>>  .on("mouseover",function(eventObject, targetElements){
 >> 
 >>    console.log(eventObject);// Mouse Event Data
 >> });//Chaining ends here but event.js is not ended yet.
 >> 
 >> //  Add another mouseover listener
->> events.targ(divs).on("mouseover",function(eventObject,targetElements){
+>> events.targ(divs).on("mouseover",function(eventObject, targetElements){
 >> 
 >>    console.log(eventObject);// Mouse Event Data
 >>    console.log(targetElements);// An array of the Targeted Elements with the each method attached to the array.
@@ -69,7 +69,7 @@
 >> // Removes all mouseover listeners/handlers of the first and second Div elements.
 >> events.targ([divs[0],divs[1]]).removeAllListeners("mouseover");
 >> 
-> - #### `eventCount` .eventCount(eventName,count)
+> - #### `eventCount` .eventCount(eventName, count)
 > Use to set how many times an event listener/handler will be called.
 >> ```js
 >> // Sets the mouseover listeners to be called once.
@@ -77,7 +77,7 @@
 >>                                                  // Listeners are executed when a targeted element is hovered for the first time 
 >>                                                  // and do not get executed afterwards when hovered again.
 >> 
-> - #### `removeListener` .removeListener(eventName,the-optional-identifier-for-the-listener || A reference to the listerner)
+> - #### `removeListener` .removeListener(eventName, the-optional-identifier-for-the-listener | A reference to the listerner)
 > Use to remove an event listener/handler of the specified event name.
 >> ```js
 >>  var button = document.getElementById("button");
